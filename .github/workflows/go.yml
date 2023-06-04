@@ -18,7 +18,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: allinone_linux_amd64
-          path: /allinone_linux_amd64
+          path: ./allinone_linux_amd64
 
   linux_arm64_build:
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: allinone_linux_arm64
-          path: /allinone_linux_arm64
+          path: ./allinone_linux_arm64
 
   darwin_amd64_build:
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: allinone_darwin_amd64
-          path: /allinone_darwin_amd64
+          path: ./allinone_darwin_amd64
 
   darwin_arm64_build:
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: allinone_darwin_arm64
-          path: /allinone_darwin_arm64
+          path: ./allinone_darwin_arm64
   
   windows_amd64_build:
     runs-on: ubuntu-latest
@@ -76,4 +76,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: allinone_windows_amd64.exe
-          path: /allinone_windows_amd64.exe
+          path: ./allinone_windows_amd64.exe
