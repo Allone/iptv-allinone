@@ -144,12 +144,15 @@ func (d *Douyu) GetRealUrl() any {
 	n4reg := regexp.MustCompile(`(?i)(\d{1,8}[0-9a-zA-Z]+)_?\d{0,4}(.m3u8|/playlist)`)
 	houzhui := n4reg.FindStringSubmatch(hls_url)
 	var real_url string
-	flv_url := "http://" + d.Cdn_type + ".douyucdn.cn/live/" + houzhui[1] + ".flv?uuid="
+	flv_url := "http://" + d.Cdn_type + ".douyucdn2.cn/dyliveflv1/" + houzhui[1] + ".flv?uuid="
+	xs_url := "http://" + d.Cdn_type + ".douyucdn2.cn/dyliveflv1/" + houzhui[1] + ".xs?uuid="
 	switch d.Stream_type {
 	case "hls":
 		real_url = hls_url
 	case "flv":
 		real_url = flv_url
+	case "xs":
+	    real_url = xs_url
 	}
 	return real_url
 }
