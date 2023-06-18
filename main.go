@@ -1,5 +1,5 @@
 // Package Golang
-// @Time:2023/06/02 10:28
+// @Time:2023/06/18 09:28
 // @File:main.go
 // @SoftWare:Goland
 // @Author:feiyang
@@ -13,11 +13,12 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-//	"github.com/forgoer/openssl"
+	"github.com/forgoer/openssl"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 func duanyan(adurl string, realurl any) string {
@@ -31,7 +32,10 @@ func duanyan(adurl string, realurl any) string {
 }
 
 func getTestVideoUrl(c *gin.Context) {
+	str_time := time.Now().Format("2006-01-02 15:04:05")
 	fmt.Fprintln(c.Writer, "#EXTM3U")
+	fmt.Fprintln(c.Writer, "#EXTINF:-1 tvg-name=\""+str_time+"\" tvg-logo=\"https://cdn.jsdelivr.net/gh/youshandefeiyang/IPTV/logo/tg.jpg\" group-title=\"列表更新时间\","+str_time)
+	fmt.Fprintln(c.Writer, "https://cdn.jsdelivr.net/gh/youshandefeiyang/testvideo/time/time.mp4")
 	fmt.Fprintln(c.Writer, "#EXTINF:-1 tvg-name=\"4K60PSDR-H264-AAC测试\" tvg-logo=\"https://cdn.jsdelivr.net/gh/youshandefeiyang/IPTV/logo/tg.jpg\" group-title=\"4K频道\",4K60PSDR-H264-AAC测试")
 	fmt.Fprintln(c.Writer, "http://159.75.85.63:5680/d/ad/h264/playad.m3u8")
 	fmt.Fprintln(c.Writer, "#EXTINF:-1 tvg-name=\"4K60PHLG-HEVC-EAC3测试\" tvg-logo=\"https://cdn.jsdelivr.net/gh/youshandefeiyang/IPTV/logo/tg.jpg\" group-title=\"4K频道\",4K60PHLG-HEVC-EAC3测试")
@@ -48,6 +52,14 @@ func setupRouter(adurl string) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
+  r.HEAD("/", func(c *gin.Context) {
+		c.String(http.StatusOK,"请求成功！")
+	})
+
+  r.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK,"请求成功！")
+	})
+  
 	r.GET("/douyin", func(c *gin.Context) {
 		vrurl := c.Query("url")
 		douyinobj := &liveurls.Douyin{}
@@ -138,7 +150,7 @@ func setupRouter(adurl string) *gin.Engine {
 			douyuobj := &liveurls.Douyu{}
 			douyuobj.Rid = rid
 			douyuobj.Stream_type = c.DefaultQuery("stream", "hls")
-			douyuobj.Cdn_type = c.DefaultQuery("cdn", "akm-tct")
+			douyuobj.Cdn_type = c.DefaultQuery("cdn", "openhls-tct")
 			c.Redirect(http.StatusMovedPermanently, duanyan(adurl, douyuobj.GetRealUrl()))
 		case "huya":
 			huyaobj := &liveurls.Huya{}
@@ -174,12 +186,9 @@ func setupRouter(adurl string) *gin.Engine {
 }
 
 func main() {
-//	key := []byte("6354127897263145")
-//	defstr, _ := base64.StdEncoding.DecodeString("Mf5ZVkSUHH5xC9fH2Sao+2LgjRfydmzMgHNrVYX4AcSoI0nktkV7z1jSU6nSihf7ny+PexV73YjDoEtG7qu+Cw==")
-//	defurl, _ := openssl.AesECBDecrypt(defstr, key, openssl.PKCS7_PADDING)
-
-
-	defurl, _ := base64.StdEncoding.DecodeString("aHR0cDovL3R2LnhpbWl4LnVzOjg4L3Rlc3QubTN1OA==")
+	key := []byte("6354127897263145")
+	defstr, _ := base64.StdEncoding.DecodeString("Dy0RPTwkLOSAi3QwoeiO5LCMnrV5rKJVH/en6xEmxVk=")
+	defurl, _ := openssl.AesECBDecrypt(defstr, key, openssl.PKCS7_PADDING)
 	r := setupRouter(string(defurl))
 	r.Run(":35455")
 }
