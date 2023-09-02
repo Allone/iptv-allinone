@@ -1,5 +1,5 @@
 // Package Golang
-// @Time:2023/07/02 10:29
+// @Time:2023/08/23 11:30
 // @File:main.go
 // @SoftWare:Goland
 
@@ -151,8 +151,7 @@ func setupRouter(adurl string) *gin.Engine {
 		case "douyu":
 			douyuobj := &liveurls.Douyu{}
 			douyuobj.Rid = rid
-			douyuobj.Stream_type = c.DefaultQuery("stream", "hls")
-			douyuobj.Cdn_type = c.DefaultQuery("cdn", "openhls-tct")
+			douyuobj.Stream_type = c.DefaultQuery("stream", "flv")
 			c.Redirect(http.StatusMovedPermanently, duanyan(adurl, douyuobj.GetRealUrl()))
 		case "huya":
 			huyaobj := &liveurls.Huya{}
@@ -170,7 +169,7 @@ func setupRouter(adurl string) *gin.Engine {
 			biliobj.Rid = rid
 			biliobj.Platform = c.DefaultQuery("platform", "web")
 			biliobj.Quality = c.DefaultQuery("quality", "10000")
-			biliobj.Line = c.DefaultQuery("line", "second")
+			biliobj.Line = c.DefaultQuery("line", "first")
 			c.Redirect(http.StatusMovedPermanently, duanyan(adurl, biliobj.GetPlayUrl()))
 		case "youtube":
 			ytbObj := &liveurls.Youtube{}
@@ -186,7 +185,6 @@ func setupRouter(adurl string) *gin.Engine {
 	})
 	return r
 }
-
 
 func main() {
 	key := []byte("6354127897263145")
