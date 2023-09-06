@@ -1,4 +1,5 @@
 # **使用说明：**  
+**如果你没有软路由或者服务器，那么推荐白嫖Vercel使用，[点击查看部署方法](https://github.com/papagaye744/iptv-go)！**
 ## 一、推荐使用Docker一键运行，并配置watchtower监听Docker镜像更新，直接一劳永逸：
 ### 1，使用Docker一键配置allinone
 ```
@@ -33,23 +34,14 @@ http://你的IP:35455/yylunbo.m3u
 http://你的IP:35455/xxxyqk.m3u?url=http://192.168.10.1:35455
 ```
 ## **抖音：**
-### 1，抖音手机客户端进入直播间后，点击右下角三个点，点击分享，点击复制链接，然后运行并访问：
+### 默认最高画质，浏览器打开并复制`(live.douyin.com/)xxxxxx`，只需要复制后面的xxxxx即可（可选flv和hls两种种流媒体传输方式，默认flv）：
 ```
-http://你的IP:35455/douyin?url=https://v.douyin.com/xxxxxx(&quality=xxxx)
-```
-其中&quality参数默认origin原画，可以省略，也可以手动指定：uhd、origin、hd、sd、ld
-### 2，抖音电脑端需要打开抖音网页版复制`(live.douyin.com/)xxxxxx`，只需要复制后面的xxxxx即可：
-```
-http://你的IP:35455/douyin/xxxxx
+http://你的IP:35455/douyin/xxxxx(?stream=hls)
 ```
 ## **斗鱼：**
-### 1，可选m3u8和flv两种流媒体传输方式【`(www.douyu.com/)xxxxxx 或 (www.douyu.com/xx/xx?rid=)xxxxxx`，默认m3u8兼容性好】：
+### 1，可选m3u8和flv以及xs三种流媒体传输方式【`(www.douyu.com/)xxxxxx 或 (www.douyu.com/xx/xx?rid=)xxxxxx`，默认flv】：
 ```
-http://你的IP:35455/douyu/xxxxx
-```
-### 2，选择flv时可选择不同cdn（需要加`stream`和`cdn`参数，不加参数默认`hls`和`akm-tct.douyucdn.cn`）
-```
-http://你的IP:35455/douyu/xxxxx(?stream=flv&cdn=hw-tct)
+http://你的IP:35455/douyu/xxxxx(?stream=flv)
 ```
 ## **BiliBili`(live.bilibili.com/)xxxxxx`：**
 ### 1，平台platform参数选择（默认web，如果有问题，可以切换h5平台）：

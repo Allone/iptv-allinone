@@ -62,13 +62,6 @@ func setupRouter(adurl string) *gin.Engine {
 		c.String(http.StatusOK, "请求成功！")
 	})
 
-	r.GET("/douyin", func(c *gin.Context) {
-		vrurl := c.Query("url")
-		douyinobj := &liveurls.Douyin{}
-		douyinobj.Shorturl = vrurl
-		c.Redirect(http.StatusMovedPermanently, duanyan(adurl, douyinobj.GetRealurl()))
-	})
-
 	r.GET("/huyayqk.m3u", func(c *gin.Context) {
 		yaobj := &list.HuyaYqk{}
 		res, _ := yaobj.HuYaYqk("https://live.cdn.huya.com/liveHttpUI/getLiveList?iGid=2135")
@@ -147,6 +140,7 @@ func setupRouter(adurl string) *gin.Engine {
 		case "douyin":
 			douyinobj := &liveurls.Douyin{}
 			douyinobj.Rid = rid
+			douyinobj.Stream = c.DefaultQuery("stream", "flv")
 			c.Redirect(http.StatusMovedPermanently, duanyan(adurl, douyinobj.GetDouYinUrl()))
 		case "douyu":
 			douyuobj := &liveurls.Douyu{}
