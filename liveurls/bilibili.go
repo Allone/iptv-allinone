@@ -83,8 +83,10 @@ func (b *BiliBili) GetPlayUrl() any {
 		if newvalue.String() == "ts" {
 			nnvalue := gjson.Get(value.String(), "format.#")
 			valuelast := fmt.Sprintf("%v", nnvalue.Int()-1)
-			base_url := gjson.Get(value.String(), "format."+valuelast+".codec.0.base_url")
-			url_info := gjson.Get(value.String(), "format."+valuelast+".codec.0.url_info")
+			codeclen := gjson.Get(value.String(), "format."+valuelast+".codec.#")
+			codeclast := fmt.Sprintf("%v", codeclen.Int()-1)
+			base_url := gjson.Get(value.String(), "format."+valuelast+".codec."+codeclast+".base_url")
+			url_info := gjson.Get(value.String(), "format."+valuelast+".codec."+codeclast+".url_info")
 			url_info.ForEach(func(key, value gjson.Result) bool {
 				keyval := fmt.Sprintf("%v", key)
 				switch b.Line {
