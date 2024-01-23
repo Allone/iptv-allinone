@@ -58,11 +58,13 @@ func (d *Douyin) GetDouYinUrl() any {
 	var realurl string
 	value := gjson.Get(json, "data.data.0.stream_url.live_core_sdk_data.pull_data.stream_data")
 	value.ForEach(func(key, value gjson.Result) bool {
-		switch d.Stream {
-		case "flv":
-			realurl = fmt.Sprintf("%s", gjson.Get(value.String(), "data.origin.main.flv"))
-		case "hls":
-			realurl = fmt.Sprintf("%s", gjson.Get(value.String(), "data.origin.main.hls"))
+		if gjson.Get(value.String(), "data.origin").Exists() {
+			switch d.Stream {
+			case "flv":
+				realurl = fmt.Sprintf("%s", gjson.Get(value.String(), "data.origin.main.flv"))
+			case "hls":
+				realurl = fmt.Sprintf("%s", gjson.Get(value.String(), "data.origin.main.hls"))
+			}
 		}
 		return true
 	})
