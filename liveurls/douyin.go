@@ -2,8 +2,6 @@
 // @Time:2023/02/03 01:59
 // @File:douyin.go
 // @SoftWare:Goland
-// @Author:feiyang
-// @Contact:TG@feiyangdigital
 
 package liveurls
 
