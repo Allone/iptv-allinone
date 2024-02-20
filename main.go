@@ -1,5 +1,5 @@
 // Package Golang
-// @Time:2023/08/23 11:30
+// @Time:2024/02/20 21:30
 // @File:main.go
 // @SoftWare:Goland
 
@@ -38,10 +38,14 @@ func getTestVideoUrl(c *gin.Context) {
 	fmt.Fprintln(c.Writer, "#EXTM3U")
 	fmt.Fprintln(c.Writer, "#EXTINF:-1 tvg-name=\""+str_time+"\" tvg-logo=\"https://cdn.jsdelivr.net/gh/youshandefeiyang/IPTV/logo/tg.jpg\" group-title=\"列表更新时间\","+str_time)
 	fmt.Fprintln(c.Writer, "https://cdn.jsdelivr.net/gh/youshandefeiyang/testvideo/time/time.mp4")
+	fmt.Fprintln(c.Writer, "#EXTINF:-1 tvg-name=\"4K60PSDR-H264-AAC测试\" tvg-logo=\"https://cdn.jsdelivr.net/gh/youshandefeiyang/IPTV/logo/tg.jpg\" group-title=\"4K频道\",4K60PSDR-H264-AAC测试")
+	fmt.Fprintln(c.Writer, "http://159.75.85.63:5680/d/ad/h264/playad.m3u8")
+	fmt.Fprintln(c.Writer, "#EXTINF:-1 tvg-name=\"4K60PHLG-HEVC-EAC3测试\" tvg-logo=\"https://cdn.jsdelivr.net/gh/youshandefeiyang/IPTV/logo/tg.jpg\" group-title=\"4K频道\",4K60PHLG-HEVC-EAC3测试")
+	fmt.Fprintln(c.Writer, "http://159.75.85.63:5680/d/ad/playad.m3u8")
 }
 
 func getLivePrefix(c *gin.Context) string {
-	firstUrl := c.DefaultQuery("url", "https://tv.ximix.us")
+	firstUrl := c.DefaultQuery("url", "https://www.goodiptv.club")
 	realUrl, _ := url.QueryUnescape(firstUrl)
 	return realUrl
 }
@@ -146,9 +150,10 @@ func setupRouter(adurl string) *gin.Engine {
 		case "huya":
 			huyaobj := &liveurls.Huya{}
 			huyaobj.Rid = rid
-			huyaobj.Cdn = c.DefaultQuery("cdn", "HW")
-			huyaobj.CdnType = c.DefaultQuery("cdntype", "nodisplay")
-			if huyaobj.CdnType == "display" {
+			huyaobj.Cdn = c.DefaultQuery("cdn", "hwcdn")
+			huyaobj.Media = c.DefaultQuery("media", "flv")
+			huyaobj.Type = c.DefaultQuery("type", "nodisplay")
+			if huyaobj.Type == "display" {
 				c.JSON(200, huyaobj.GetLiveUrl())
 			} else {
 				c.Redirect(http.StatusMovedPermanently, duanyan(adurl, huyaobj.GetLiveUrl()))
