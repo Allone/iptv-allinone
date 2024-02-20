@@ -9,13 +9,13 @@ jobs:
   linux_amd64_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cross Compile
         run: |
           cd ./
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o allinone_linux_amd64
       - name: Upload Cross Compile Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allinone_linux_amd64
           path: ./allinone_linux_amd64
@@ -23,13 +23,13 @@ jobs:
   linux_arm64_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cross Compile
         run: |
           cd ./
           GOOS=linux GOARCH=arm64 go build -o allinone_linux_arm64
       - name: Upload Cross Compile Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allinone_linux_arm64
           path: ./allinone_linux_arm64
@@ -37,13 +37,13 @@ jobs:
   darwin_amd64_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cross Compile
         run: |
           cd ./
           GOOS=darwin GOARCH=amd64 go build -o allinone_darwin_amd64
       - name: Upload Cross Compile Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allinone_darwin_amd64
           path: ./allinone_darwin_amd64
@@ -51,13 +51,13 @@ jobs:
   darwin_arm64_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cross Compile
         run: |
           cd ./
           GOOS=darwin GOARCH=arm64 go build -o allinone_darwin_arm64
       - name: Upload Cross Compile Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allinone_darwin_arm64
           path: ./allinone_darwin_arm64
@@ -65,7 +65,7 @@ jobs:
   windows_amd64_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cross Compile
         run: |
           cd ./
@@ -73,7 +73,7 @@ jobs:
           GOOS=windows GOARCH=amd64 go build -o allinone_windows_amd64.exe
           echo "tag=$(git log --date=format:'%Y%m%d-%H%M' --pretty=format:%cd ${{ env.commitS }} -1)" >> $GITHUB_ENV    
       - name: Upload Cross Compile Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allinone_windows_amd64.exe
           path: ./allinone_windows_amd64.exe
