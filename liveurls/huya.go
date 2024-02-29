@@ -97,12 +97,17 @@ func getUUID() int64 {
 }
 
 func processAntiCode(antiCode string, uid int, streamName string) string {
+	TimeLocation, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		TimeLocation = time.FixedZone("CST", 8*60*60)
+	}
+	now := time.Now().In(TimeLocation)
 	q, _ := url.ParseQuery(antiCode)
-	q.Set("t", "100")
-	q.Set("ctype", "huya_live")
+	q.Set("t", "102")
+	q.Set("ctype", "tars_mp")
 	q.Set("wsTime", strconv.FormatInt(time.Now().Unix()+21600, 16))
 	q.Set("ver", "1")
-	q.Set("sv", "2110211124")
+	q.Set("sv", now.Format("2006010215"))
 	seqId := strconv.Itoa(uid + int(time.Now().UnixNano()/int64(time.Millisecond)))
 	q.Set("seqid", seqId)
 	q.Set("uid", strconv.Itoa(uid))
@@ -166,7 +171,7 @@ func (h *Huya) GetLiveUrl() any {
 						for k, v := range urlarr {
 							switch k {
 							case h.Cdn:
-								mediaurl = v
+								mediaurl = strings.Replace(v, "http://", "https://", 1)
 							}
 						}
 					}
@@ -177,7 +182,7 @@ func (h *Huya) GetLiveUrl() any {
 			if roomProfile, ok := liveArr["roomProfile"].(map[string]any); ok {
 				if liveLineUrl, ok := roomProfile["liveLineUrl"].(string); ok {
 					decodedLiveLineUrl, _ := base64.StdEncoding.DecodeString(liveLineUrl)
-					mediaurl = "http:" + string(decodedLiveLineUrl)
+					mediaurl = "https:" + string(decodedLiveLineUrl)
 				}
 			}
 		} else {
@@ -185,5 +190,4 @@ func (h *Huya) GetLiveUrl() any {
 		}
 	}
 	return mediaurl
-
 }
